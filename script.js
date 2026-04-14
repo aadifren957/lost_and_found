@@ -6,7 +6,12 @@ const items = [
     { title: "ID Card", img: "https://via.placeholder.com/200" }
 ];
 
-const API_BASE = "http://localhost:5000"; // if you already have this
+const BASE_URL = CONFIG.BASE_URL; 
+
+
+document.getElementById("googleLoginBtn")?.addEventListener("click", () => {
+    window.location.href = `${BASE_URL}/api/auth/google`;
+});
 
 // 🔐 ADD THIS HERE
 function getAuthHeaders() {
@@ -31,7 +36,7 @@ async function handleGoogleAuth() {
 
         try {
             // Fetch user profile after Google login
-            const response = await fetch(`${API_BASE}/api/auth/profile`, {
+            const response = await fetch(`${BASE_URL}/api/auth/profile`, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -177,7 +182,7 @@ document.getElementById("lostForm")?.addEventListener("submit", async function(e
     }
 
     try {
-        const response = await fetch("http://localhost:5000/api/lost/report", {
+        const response = await fetch(`${BASE_URL}/api/lost/report`, {
             method: "POST",
             headers: getAuthHeaders(),
             body: formData
@@ -235,7 +240,7 @@ document.getElementById("foundForm")?.addEventListener("submit", async function(
     }
 
     try {
-        const response = await fetch("http://localhost:5000/api/found/report", {
+        const response = await fetch(`${BASE_URL}/api/found/report`, {
             method: "POST",
             headers: getAuthHeaders(),
             body: formData
@@ -335,7 +340,7 @@ async function adminLogin() {
     const password = document.getElementById("adminPassword").value;
 
     try {
-        const res = await fetch("http://localhost:5000/api/auth/login", {
+        const res = await fetch(`${BASE_URL}/api/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -838,7 +843,7 @@ async function signupUser() {
     }
 
     try {
-        const response = await fetch("http://localhost:5000/api/auth/signup", {
+        const response = await fetch(`${BASE_URL}/api/auth/signup`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -871,7 +876,7 @@ async function loginUser() {
     const password = document.getElementById("loginPassword")?.value;
 
     try {
-        const response = await fetch("http://localhost:5000/api/auth/login", {
+        const response = await fetch(`${BASE_URL}/api/auth/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -981,7 +986,7 @@ function adminLogout() {
 
 async function loadLostItemCount() {
     try {
-        const response = await fetch("http://localhost:5000/api/lost/count");
+        const response = await fetch(`${BASE_URL}/api/lost/count`);
         const data = await response.json();
 
         const lostCountEl = document.getElementById("lostCount");
@@ -1008,7 +1013,7 @@ window.addEventListener("DOMContentLoaded", () => {
 const IMG_PLACEHOLDER = "https://via.placeholder.com/80?text=No+Img";
 
 function imgUrl(filename) {
-    return filename ? `${API_BASE}/uploads/${filename}` : IMG_PLACEHOLDER;
+    return filename ? `${BASE_URL}/uploads/${filename}` : IMG_PLACEHOLDER;
 }
 
 async function loadMyLostItems() {
@@ -1025,7 +1030,7 @@ async function loadMyLostItems() {
     list.innerHTML = "<p style='text-align:center;'>Loading your items...</p>";
 
     try {
-        const res = await fetch(`${API_BASE}/api/lost/mine`, {
+        const res = await fetch(`${BASE_URL}/api/lost/mine`, {
             headers: getAuthHeaders()
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -1075,7 +1080,7 @@ async function findMatchesFor(lostItemId, lostTitle) {
     section.scrollIntoView({ behavior: "smooth", block: "start" });
 
     try {
-        const res = await fetch(`${API_BASE}/api/matches/find/${lostItemId}?limit=10`, {
+        const res = await fetch(`${BASE_URL}/api/matches/find/${lostItemId}?limit=10`, {
             headers: getAuthHeaders()
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -1116,7 +1121,7 @@ document.addEventListener("DOMContentLoaded", loadMyLostItems);
 
 async function loadLostItemsAdmin() {
     try {
-        const response = await fetch("http://localhost:5000/api/lost/all");
+        const response = await fetch(`${BASE_URL}/api/lost/all`);
 
         const data = await response.json();
 
@@ -1154,7 +1159,7 @@ async function loadFoundItems() {
     if (!tableBody) return;
 
     try {
-        const response = await fetch("http://localhost:5000/api/found", {
+        const response = await fetch(`${BASE_URL}/api/found`, {
             headers: getAuthHeaders()
         });
         const data = await response.json();
@@ -1235,7 +1240,7 @@ function openFoundItemModal(index) {
     const modalImage = document.getElementById("modalImage");
 
     if (item.image && item.image !== "null" && item.image !== "") {
-        modalImage.src = `http://localhost:5000/uploads/${item.image}`;
+        modalImage.src = `${BASE_URL}/uploads/${item.image}`;
     } else {
         modalImage.src = "https://via.placeholder.com/300?text=No+Image";
     }
@@ -1275,7 +1280,7 @@ async function loadMatchRequests() {
     if (!tableBody) return;
 
     try {
-        const res = await fetch("http://localhost:5000/api/matches");
+        const res = await fetch(`${BASE_URL}/api/matches`);
         const data = await res.json();
 
         console.log("MATCH DATA:", data);
@@ -1331,7 +1336,7 @@ function openMatchModal(index) {
     // ✅ Image helper
     const getImageUrl = (img) => {
         if (img && img !== "null" && img !== "") {
-            return `http://localhost:5000/uploads/${img}`;
+            return `${BASE_URL}/uploads/${img}`;
         }
         return "https://via.placeholder.com/300x200?text=No+Image";
     };
@@ -1395,7 +1400,7 @@ async function approveMatch() {
 
     try {
         const res = await fetch(
-            `http://localhost:5000/api/matches/${currentMatchId}/approve`,
+            `${BASE_URL}/api/matches/${currentMatchId}/approve`,
             {
                 method: "PUT"
             }
@@ -1423,7 +1428,7 @@ async function rejectMatch() {
 
     try {
         const res = await fetch(
-            `http://localhost:5000/api/matches/${currentMatchId}/reject`,
+            `${BASE_URL}/api/matches/${currentMatchId}/reject`,
             {
                 method: "DELETE"
             }
@@ -1448,10 +1453,10 @@ function closeMatchModal() {
 async function loadDashboardStats() {
     try {
         const [lostRes, foundRes, pendingRes, returnedRes] = await Promise.all([
-            fetch("http://localhost:5000/api/lost/count"),
-            fetch("http://localhost:5000/api/found/count"),
-            fetch("http://localhost:5000/api/found/pending-count"),
-            fetch("http://localhost:5000/api/found/returned-count")
+            fetch(`${BASE_URL}/api/lost/count`),
+            fetch(`${BASE_URL}/api/found/count`),
+            fetch(`${BASE_URL}/api/found/pending-count`),
+            fetch(`${BASE_URL}/api/found/returned-count`)
         ]);
 
         const lostData = await lostRes.json();
@@ -1480,7 +1485,7 @@ async function loadDashboardStats() {
 }
 async function loadHomeStats() {
     try {
-        const res = await fetch("http://localhost:5000/api/found/returned-count");
+        const res = await fetch(`${BASE_URL}/api/found/returned-count`);
         const data = await res.json();
 
         const el = document.getElementById("homeReturnedCount");
@@ -1509,7 +1514,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     if (!grid) return;
 
     try {
-        const res = await fetch("http://localhost:5000/api/found/recent-matched");
+        const res = await fetch(`${BASE_URL}/api/found/recent-matched`);
         const data = await res.json();
 
         grid.innerHTML = "";
@@ -1519,7 +1524,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             card.className = "item-card";
 
             const imageUrl = item.image
-                ? `http://localhost:5000/uploads/${item.image}`
+                ? `${BASE_URL}/uploads/${item.image}`
                 : "placeholder.png";
 
             card.innerHTML = `
@@ -1537,7 +1542,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 async function markItemReturned(id) {
     try {
         const response = await fetch(
-            `http://localhost:5000/api/found/${id}/return`,
+            `${BASE_URL}/api/found/${id}/return`,
             {
                 method: "PUT"
             }
