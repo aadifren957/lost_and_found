@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy | Smart Lost & Found</title>
+
+    <link rel="icon" href="./logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="section-container">
+            <div class="logo">
+                <a href="index.html" class="logo">
+                    <img src="./logo.png" alt="Logo">
+                    <span class="text-gradient">Smart Lost & Found</span>
+                </a>
+            </div>
+
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="report-lost.html">Lost Items</a>
+                <a href="report-found.html">Found Items</a>
+                <a href="track-status.html">Track Status</a>
+                
+                <!-- LOGIN DROPDOWN -->
+                <div class="dropdown" id="loginDropdown">
+                    <span class="dropbtn">Login <span class="chevron"></span></span>
+                    <div class="dropdown-content glass">
+                        <a href="user-login.html">
+                            <img src="icons/user-icon.svg" style="height: 18px; margin-right: 0.75rem;">
+                            User Login
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="admin-login.html">
+                            <img src="icons/lock.svg" style="height: 18px; margin-right: 0.75rem;">
+                            Admin Login
+                        </a>
+                    </div>
+                </div>
+
+                <!-- USER AUTH DROPDOWN (LOGGED IN) -->
+                <div class="dropdown" id="userAuthBox" style="display:none;">
+                    <span class="dropbtn user-name" id="userWelcome">
+                        <img src="" class="user-profile-img" style="display:none;">
+                        <img src="icons/account_circle.svg" class="account-icon default-user-icon" style="filter: invert(1); height: 20px;">
+                        <span class="username-text"></span>
+                        <span class="chevron" style="margin-left: 0.2rem;"></span>
+                    </span>
+                    <div class="dropdown-content glass dropdown-right" id="userDropdownMenu">
+                        <a href="my-account.html">
+                            <img src="icons/account_circle.svg" alt="My Account" style="height: 18px; filter: invert(1);">
+                            <span>My Account</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" onclick="userLogout()">
+                            <img src="icons/logout.svg" alt="Logout" style="height: 18px; filter: invert(1);">
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="hamburger" id="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="section-container" style="padding: 4rem 2rem;">
+        <div class="glass" style="padding: 3rem; max-width: 900px; margin: 0 auto; line-height: 1.8;">
+            <h1 class="text-gradient" style="font-size: 2.5rem; margin-bottom: 2rem; text-align: center;">Privacy Policy</h1>
+            
+            <section style="margin-bottom: 2rem;">
+                <h2 style="color: var(--accent-blue); margin-bottom: 1rem;">1. Introduction</h2>
+                <p style="color: var(--text-secondary);">Welcome to Smart Lost & Found. We are committed to protecting your personal information and your right to privacy. This Privacy Policy explains how we collect, use, and safeguard your data when you use our platform.</p>
+            </section>
+
+            <section style="margin-bottom: 2rem;">
+                <h2 style="color: var(--accent-blue); margin-bottom: 1rem;">2. Data We Collect</h2>
+                <p style="color: var(--text-secondary);">To provide our services, we collect certain personal and non-personal information, including:</p>
+                <ul style="color: var(--text-secondary); list-style: disc; margin-left: 1.5rem; margin-top: 1rem;">
+                    <li><strong>Personal Details:</strong> Name, email address, and profile information provided during signup or Google Auth.</li>
+                    <li><strong>Item Details:</strong> Information about lost or found items, including titles, categories, locations, and descriptions.</li>
+                    <li><strong>Images:</strong> Photos of items you upload to help the matching process.</li>
+                </ul>
+            </section>
+
+            <section style="margin-bottom: 2rem;">
+                <h2 style="color: var(--accent-blue); margin-bottom: 1rem;">3. How We Use Data</h2>
+                <p style="color: var(--text-secondary);">Your information is used strictly for the following purposes:</p>
+                <ul style="color: var(--text-secondary); list-style: disc; margin-left: 1.5rem; margin-top: 1rem;">
+                    <li><strong>Authentication:</strong> To manage your account and secure your experience.</li>
+                    <li><strong>Smart Matching:</strong> Our algorithms analyze item details to find potential matches between lost and found items.</li>
+                    <li><strong>Communication:</strong> To notify you when a match is found or for account-related updates.</li>
+                </ul>
+            </section>
+
+            <section style="margin-bottom: 2rem;">
+                <h2 style="color: var(--accent-blue); margin-bottom: 1rem;">4. Data Protection Assurance</h2>
+                <p style="color: var(--text-secondary);">We implement industry-standard security measures to protect your data. Your passwords are encrypted, and item images are stored securely. We do not sell your personal data to third parties.</p>
+            </section>
+
+            <section style="margin-bottom: 2rem;">
+                <h2 style="color: var(--accent-blue); margin-bottom: 1rem;">5. Cookies Usage</h2>
+                <p style="color: var(--text-secondary);">We use essential cookies and local storage to maintain your login session and provide a seamless navigation experience. These are necessary for the core functionality of the website.</p>
+            </section>
+
+            <div style="text-align: center; margin-top: 3rem; color: var(--text-secondary); font-size: 0.9rem;">
+                Last updated: April 2026
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo" style="margin-bottom: 1.5rem;">
+                        <img src="logo.png" alt="">
+                        <span class="text-gradient">Smart Lost & Found</span>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">Bridging the gap between lost and found using modern technology and community trust.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                        <li><a href="track-status.html">Track Status</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="privacy.html" class="active" style="color: var(--accent-blue);">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Contact Us</h5>
+                    <div class="icon-section">
+                        <a href="mailto:rishufren@gmail.com"><img src="./icons/mail.svg" alt="Mail" /></a>
+                        <a href="tel:+919939648228"><img src="./icons/phone.svg" alt="Phone" /></a>
+                        <a href="https://www.instagram.com/"><img src="./icons/instagram-icon.webp" alt="Instagram"></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Lost & Found System. All rights reserved.</p>
+                <a href="index.html"><img src="./icons/Home.svg" alt="" style="height: 24px; filter: invert(1);"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Lost Item | Smart Lost & Found</title>
+
+    <link rel="icon" href="./logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="section-container">
+            <div class="logo">
+                <a href="index.html" class="logo">
+                    <img src="./logo.png" alt="Logo">
+                    <span class="text-gradient">Smart Lost & Found</span>
+                </a>
+            </div>
+
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="report-lost.html" class="active">Lost Items</a>
+                <a href="report-found.html">Found Items</a>
+                <a href="track-status.html">Track Status</a>
+                
+                <div class="dropdown" id="loginDropdown">
+                    <span class="dropbtn">Login <span class="chevron"></span></span>
+                    <div class="dropdown-content glass">
+                        <a href="user-login.html" class="ul">
+                            <img src="icons/user-icon.svg" style="height: 18px; margin-right: 0.75rem;">
+                            User Login
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="admin-login.html" class="al">
+                            <img src="icons/lock.svg" style="height: 18px; margin-right: 0.75rem;">
+                            Admin Login
+                        </a>
+                    </div>
+                </div>
+
+                <div class="dropdown" id="userAuthBox" style="display:none;">
+                    <span class="dropbtn user-name" id="userWelcome">
+                        <img src="" class="user-profile-img" style="display:none;">
+                        <img src="icons/account_circle.svg" class="account-icon default-user-icon" style="filter: invert(1); height: 20px;">
+                        <span class="username-text"></span>
+                        <span class="chevron" style="margin-left: 0.2rem;"></span>
+                    </span>
+                    <div class="dropdown-content glass dropdown-right" id="userDropdownMenu">
+                        <a href="my-account.html">
+                            <img src="icons/account_circle.svg" alt="My Account" style="height: 18px; filter: invert(1);">
+                            <span>My Account</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" onclick="userLogout()">
+                            <img src="icons/logout.svg" alt="Logout" style="height: 18px; filter: invert(1);">
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="hamburger" id="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN SECTION -->
+    <main class="section-container">
+        <div class="form-container glass">
+            <h2 class="text-gradient">Report Lost Item</h2>
+            <p style="color: var(--text-secondary); text-align: center; margin-bottom: 2rem;">Please provide as much detail as possible to help us match your item.</p>
+
+            <form id="lostForm">
+                <div class="form-group">
+                    <label>Item Name *</label>
+                    <input type="text" id="itemName" placeholder="Example: ID Card, Wallet, Pendrive" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Category *</label>
+                    <select id="itemCategory" required>
+                        <option value="">-- Select Category --</option>
+                        <option>ID Card</option>
+                        <option>Electronics</option>
+                        <option>Notebook</option>
+                        <option>Keys</option>
+                        <option>Wallet</option>
+                        <option>Bottle</option>
+                        <option>Others</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Where Did You Lose It? *</label>
+                    <input type="text" id="lostLocation" placeholder="Example: Canteen, Classroom B-203" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Description (Optional)</label>
+                    <textarea id="lostDescription" rows="4" placeholder="Add any extra details such as color, brand, or unique markings..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Upload Image (Optional)</label>
+                    <input type="file" id="lostImage" accept="image/*" onchange="previewImage(event)" style="padding: 0.5rem;">
+                    <div style="display: flex; justify-content: center; margin-top: 1rem;">
+                        <img id="imagePreview" class="preview-img" style="display:none; max-width: 100%; border-radius: 12px; border: 1px solid var(--glass-border);">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    Submit Report
+                </button>
+            </form>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo" style="margin-bottom: 1.5rem;">
+                        <img src="logo.png" alt="">
+                        <span class="text-gradient">Smart Lost & Found</span>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">Bridging the gap between lost and found using modern technology and community trust.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="report-lost.html" class="active" style="color: var(--accent-blue);">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                        <li><a href="track-status.html">Track Status</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Contact Us</h5>
+                    <div class="icon-section">
+                        <a href="mailto:rishufren@gmail.com"><img src="./icons/mail.svg" alt="Mail" /></a>
+                        <a href="tel:+919939648228"><img src="./icons/phone.svg" alt="Phone" /></a>
+                        <a href="https://www.instagram.com/"><img src="./icons/instagram-icon.webp" alt="Instagram"></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Lost & Found System. All rights reserved.</p>
+                <a href="index.html"><img src="./icons/Home.svg" alt="" style="height: 24px; filter: invert(1);"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

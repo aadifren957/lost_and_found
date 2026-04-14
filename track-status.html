@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Status | Smart Lost & Found</title>
+
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .lost-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .lost-item-card {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .match-btn {
+            margin-top: auto;
+        }
+        .match-table-container {
+            margin-top: 3rem;
+            animation: fadeIn 0.5s ease;
+        }
+        .track-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        .track-table th, .track-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="section-container">
+            <div class="logo">
+                <a href="index.html" class="logo">
+                    <img src="./logo.png" alt="Logo">
+                    <span class="text-gradient">Smart Lost & Found</span>
+                </a>
+            </div>
+
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="report-lost.html">Lost Items</a>
+                <a href="report-found.html">Found Items</a>
+                <a href="track-status.html" class="active">Track Status</a>
+                
+                <div class="dropdown" id="loginDropdown">
+                    <span class="dropbtn">Login <span class="chevron"></span></span>
+                    <div class="dropdown-content glass">
+                        <a href="user-login.html" class="ul">
+                            <img src="icons/user-icon.svg" style="height: 18px; margin-right: 0.75rem;">
+                            User Login
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="admin-login.html" class="al">
+                            <img src="icons/lock.svg" style="height: 18px; margin-right: 0.75rem;">
+                            Admin Login
+                        </a>
+                    </div>
+                </div>
+
+                <div class="dropdown" id="userAuthBox" style="display:none;">
+                    <span class="dropbtn user-name" id="userWelcome">
+                        <img src="" class="user-profile-img" style="display:none;">
+                        <img src="icons/account_circle.svg" class="account-icon default-user-icon" style="filter: invert(1); height: 20px;">
+                        <span class="username-text"></span>
+                        <span class="chevron" style="margin-left: 0.2rem;"></span>
+                    </span>
+                    <div class="dropdown-content glass dropdown-right" id="userDropdownMenu">
+                        <a href="my-account.html">
+                            <img src="icons/account_circle.svg" alt="My Account" style="height: 18px; filter: invert(1);">
+                            <span>My Account</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" onclick="userLogout()">
+                            <img src="icons/logout.svg" alt="Logout" style="height: 18px; filter: invert(1);">
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="hamburger" id="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="section-container" style="padding: 4rem 2rem;">
+
+        <div style="text-align: center; margin-bottom: 4rem;">
+            <h2 class="text-gradient" style="font-size: 2.5rem; margin-bottom: 1rem;">Track Your Lost Items</h2>
+            <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto;">
+                View your reported items and find potential matches from the community database.
+            </p>
+        </div>
+
+        <div id="myLostList" class="lost-list">
+            <!-- Loading state -->
+            <div style="grid-column: 1/-1; text-align: center; padding: 3rem;">
+                <p style="color: var(--text-secondary);">Loading your items...</p>
+            </div>
+        </div>
+
+        <!-- MATCH RESULTS -->
+        <section id="matchResultsSection" class="match-table-container glass" style="display:none; padding: 2rem;">
+            <h3 id="matchResultsHeading" class="text-gradient" style="font-size: 1.5rem; margin-bottom: 1.5rem;">Top Matches</h3>
+
+            <div style="overflow-x: auto;">
+                <table class="track-table">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Found At</th>
+                            <th>Reported By</th>
+                            <th>Confidence</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matchResultsBody"></tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo" style="margin-bottom: 1.5rem;">
+                        <img src="logo.png" alt="">
+                        <span class="text-gradient">Smart Lost & Found</span>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">Bridging the gap between lost and found using modern technology and community trust.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                        <li><a href="track-status.html" class="active" style="color: var(--accent-blue);">Track Status</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Contact Us</h5>
+                    <div class="icon-section">
+                        <a href="mailto:rishufren@gmail.com"><img src="./icons/mail.svg" alt="Mail" /></a>
+                        <a href="tel:+919939648228"><img src="./icons/phone.svg" alt="Phone" /></a>
+                        <a href="https://www.instagram.com/"><img src="./icons/instagram-icon.webp" alt="Instagram"></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Lost & Found System. All rights reserved.</p>
+                <a href="index.html"><img src="./icons/Home.svg" alt="" style="height: 24px; filter: invert(1);"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

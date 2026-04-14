@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Lost & Found | Find What You Lost</title>
+
+    <link rel="icon" href="./logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="section-container">
+            <div class="logo">
+                <a href="index.html" class="logo">
+                    <img src="./logo.png" alt="Logo">
+                    <span class="text-gradient">Smart Lost & Found</span>
+                </a>
+            </div>
+
+            <nav class="nav">
+                <a href="index.html" class="active">Home</a>
+                <a href="report-lost.html">Lost Items</a>
+                <a href="report-found.html">Found Items</a>
+                <a href="track-status.html">Track Status</a>
+                
+                <!-- LOGIN DROPDOWN -->
+                <div class="dropdown" id="loginDropdown">
+                    <span class="dropbtn">Login <span class="chevron"></span></span>
+                    <div class="dropdown-content glass">
+                        <a href="user-login.html">
+                            <img src="icons/user-icon.svg" style="height: 18px; margin-right: 0.75rem;">
+                            User Login
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="admin-login.html">
+                            <img src="icons/lock.svg" style="height: 18px; margin-right: 0.75rem;">
+                            Admin Login
+                        </a>
+                    </div>
+                </div>
+
+                <!-- USER AUTH DROPDOWN (LOGGED IN) -->
+                <div class="dropdown" id="userAuthBox" style="display:none;">
+                    <span class="dropbtn user-name" id="userWelcome">
+                        <img src="" class="user-profile-img" style="display:none;">
+                        <img src="icons/account_circle.svg" class="account-icon default-user-icon" style="filter: invert(1); height: 20px;">
+                        <span class="username-text"></span>
+                        <span class="chevron" style="margin-left: 0.2rem;"></span>
+                    </span>
+                    <div class="dropdown-content glass dropdown-right" id="userDropdownMenu">
+                        <a href="my-account.html">
+                            <img src="icons/account_circle.svg" alt="My Account" style="height: 18px; filter: invert(1);">
+                            <span>My Account</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" onclick="userLogout()">
+                            <img src="icons/logout.svg" alt="Logout" style="height: 18px; filter: invert(1);">
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="hamburger" id="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN SECTION -->
+    <main class="section-container">
+        
+        <!-- HERO / SEARCH -->
+        <section class="search-container">
+            <h1 class="text-gradient" style="font-size: 3.5rem; font-weight: 800; margin-bottom: 1rem;">Lost it? We'll help find it.</h1>
+            <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 3rem;">The most advanced community-driven lost and found system.</p>
+            
+            <div class="search-box glass">
+                <input type="text" id="searchInput" placeholder="Search for lost items (e.g. Black Wallet, Keys)...">
+                <button onclick="searchItems()" class="btn-primary">Search</button>
+            </div>
+
+            <div class="action-buttons" style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem;">
+                <a href="report-lost.html" class="btn btn-primary">Report Lost Item</a>
+                <a href="report-found.html" class="btn btn-secondary">Report Found Item</a>
+            </div>
+        </section>
+
+        <!-- STATS -->
+        <section class="stats">
+            <div class="stat-card glass">
+                <h3>Lost Items Today</h3>
+                <p id="lostCount" class="text-gradient">0</p>
+            </div>
+
+            <div class="stat-card glass">
+                <h3>Items Successfully Returned</h3>
+                <p id="homeReturnedCount" class="text-gradient">0</p>
+            </div>
+        </section>
+
+        <!-- RECENT ITEMS -->
+        <section class="recent-section">
+            <h2 class="section-title">Recently Found Items</h2>
+            <div class="item-grid" id="itemGrid">
+                <!-- JavaScript will insert cards here -->
+            </div>            
+        </section>
+    </main>
+
+
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo" style="margin-bottom: 1.5rem;">
+                        <img src="logo.png" alt="">
+                        <span class="text-gradient">Smart Lost & Found</span>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">Bridging the gap between lost and found using modern technology and community trust.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                        <li><a href="track-status.html">Track Status</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Contact Us</h5>
+                    <div class="icon-section">
+                        <a href="mailto:rishufren@gmail.com"><img src="./icons/mail.svg" alt="Mail" /></a>
+                        <a href="tel:+919939648228"><img src="./icons/phone.svg" alt="Phone" /></a>
+                        <a href="https://www.instagram.com/"><img src="./icons/instagram-icon.webp" alt="Instagram"></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Lost & Found System. All rights reserved.</p>
+                <a href="index.html"><img src="./icons/Home.svg" alt="" style="height: 24px; filter: invert(1);"></a>
+            </div>
+        </div>
+    </footer>
+    
+
+    <script src="script.js"></script>
+</body>
+</html>

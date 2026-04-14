@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | Smart Lost & Found</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="./logo.png" type="image/x-icon">
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header" style="position: fixed; width: 100%; border-bottom: 1px solid var(--glass-border);">
+    <div class="section-container" style="max-width: 100%; padding: 0 2rem;">
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+            <span class="text-gradient">Admin Panel</span>
+        </div>
+        <button type="button" class="btn btn-secondary" style="padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.9rem;" onclick="adminLogout()">
+            Logout
+        </button>
+    </div>
+</header>
+
+<!-- DASHBOARD LAYOUT -->
+<div class="admin-layout" style="padding-top: 70px;">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <ul class="sidebar-menu">
+            <li onclick="showSection('overview-section')" class="active">
+                <img src="icons/dashboard.svg" style="height: 20px; filter: invert(0.7);"> Dashboard
+            </li>
+            <li onclick="showSection('lost-section')">
+                <img src="icons/search.svg" style="height: 20px; filter: invert(0.7);"> Lost Items
+            </li>
+            <li onclick="showSection('found-section')">
+                <img src="icons/check_circle.svg" style="height: 20px; filter: invert(0.7);"> Found Items
+            </li>
+            <li onclick="showSection('match-section')">
+                <img src="icons/compare_arrows.svg" style="height: 20px; filter: invert(0.7);"> Match Requests
+            </li>
+        </ul>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="admin-main">
+
+        <!-- OVERVIEW -->
+        <section id="overview-section" class="dashboard-section active">
+            <h2 class="text-gradient" style="font-size: 2rem; margin-bottom: 2rem;">Overview</h2>
+
+            <div class="stats" style="margin-top: 0;">
+                <div class="stat-card glass">
+                    <h3>Total Lost</h3>
+                    <p id="lostCount" class="text-gradient">0</p>
+                </div>
+                <div class="stat-card glass">
+                    <h3>Total Found</h3>
+                    <p id="foundCount" class="text-gradient" style="background: linear-gradient(90deg, #00e676, #00c9ff); -webkit-background-clip: text;">0</p>
+                </div>
+                <div class="stat-card glass">
+                    <h3>Pending Matches</h3>
+                    <p id="pendingCount" class="text-gradient" style="background: linear-gradient(90deg, #ffab00, #ff5722); -webkit-background-clip: text;">0</p>
+                </div>
+                <div class="stat-card glass">
+                    <h3>Returned Items</h3>
+                    <p id="returnedCount" class="text-gradient" style="background: linear-gradient(90deg, #00c9ff, #9d50bb); -webkit-background-clip: text;">0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LOST ITEMS -->
+        <section id="lost-section" class="dashboard-section">
+            <h2 class="text-gradient" style="font-size: 2rem; margin-bottom: 1rem;">Lost Items</h2>
+            <div class="glass" style="padding: 1.5rem; overflow-x: auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Category</th>
+                            <th>Location</th>
+                            <th>Reported By</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lostItemsTable">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- FOUND ITEMS -->
+        <section id="found-section" class="dashboard-section">
+            <h2 class="text-gradient" style="font-size: 2rem; margin-bottom: 1rem;">Found Items</h2>
+            <div class="glass" style="padding: 1.5rem; overflow-x: auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Category</th>
+                            <th>Found At</th>
+                            <th>Reported By</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="foundItemsTableBody">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- MATCH REQUESTS -->
+        <section id="match-section" class="dashboard-section">
+            <h2 class="text-gradient" style="font-size: 2rem; margin-bottom: 1rem;">Match Requests</h2>
+            <div class="glass" style="padding: 1.5rem; overflow-x: auto;">
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Lost Item</th>
+                            <th>Found Item</th>
+                            <th>Match %</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matchTableBody">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+</div>
+
+<!-- MATCH REVIEW MODAL -->
+<div id="matchModal" class="modal">
+    <div class="modal-content glass">
+        <span class="close" onclick="closeMatchModal()">&times;</span>
+        <h2 class="text-gradient">Match Review</h2>
+
+        <div class="modal-grid">
+            <div class="modal-card">
+                <h3>Lost Item</h3>
+                <img src="" id="lostItemImg" alt="Lost Item" class="modal-img">
+                <p><strong>Name:</strong> <span id="lostItemName"></span></p>
+                <p><strong>Category:</strong> <span id="lostItemCat"></span></p>
+                <p id="lostItemDesc"></p>
+            </div>
+            <div class="modal-card">
+                <h3>Found Item</h3>
+                <img src="" id="foundItemImg" alt="Found Item" class="modal-img">
+                <p><strong>Name:</strong> <span id="foundItemName_modal"></span></p>
+                <p><strong>Category:</strong> <span id="foundItemCat"></span></p>
+                <p id="foundItemDesc"></p>
+            </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <button class="btn btn-secondary" onclick="rejectMatch()">Reject Match</button>
+            <button class="btn btn-primary" onclick="approveMatch()">Approve Match</button>
+        </div>
+    </div>
+</div>
+
+<!-- FOUND ITEM DETAILS MODAL -->
+<div id="foundItemModal" class="modal">
+    <div class="modal-content glass">
+        <span class="close" onclick="closeFoundItemModal()">&times;</span>
+        <h2 class="text-gradient">Found Item Details</h2>
+
+        <div class="modal-grid">
+            <div class="modal-card">
+                <p><strong>Item:</strong> <span id="modalItemName"></span></p>
+                <p><strong>Category:</strong> <span id="modalCategory"></span></p>
+                <p><strong>Found At:</strong> <span id="modalFoundAt"></span></p>
+                <p><strong>Reported By:</strong> <span id="modalReportedBy"></span></p>
+                <p><strong>Status:</strong> <span id="modalStatus"></span></p>
+            </div>
+            <div class="modal-card" style="padding: 0; overflow: hidden;">
+                <img id="modalImage" src="" alt="Found Item" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+            <button id="returnBtn" class="btn btn-primary" onclick="markItemReturned()">
+                Mark as Returned
+            </button>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+<script>
+    checkAdminAccess();
+</script>
+<div id="toast"></div>
+</body>
+</html>

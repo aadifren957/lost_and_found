@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Item Details | Smart Lost & Found</title>
+
+    <link rel="icon" href="logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            margin-top: 2rem;
+        }
+        @media (max-width: 768px) {
+            .details-grid { grid-template-columns: 1fr; gap: 2rem; }
+        }
+        .item-info-card {
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="section-container">
+            <div class="logo">
+                <a href="index.html" class="logo">
+                    <img src="./logo.png" alt="Logo">
+                    <span class="text-gradient">Smart Lost & Found</span>
+                </a>
+            </div>
+
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="report-lost.html">Lost Items</a>
+                <a href="report-found.html">Found Items</a>
+                <a href="track-status.html">Track Status</a>
+                
+                <div class="dropdown" id="loginDropdown">
+                    <span class="dropbtn">Login <span class="chevron"></span></span>
+                    <div class="dropdown-content glass">
+                        <a href="user-login.html" class="ul">
+                            <img src="icons/user-icon.svg" style="height: 18px; margin-right: 0.75rem;">
+                            User Login
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="admin-login.html" class="al">
+                            <img src="icons/lock.svg" style="height: 18px; margin-right: 0.75rem;">
+                            Admin Login
+                        </a>
+                    </div>
+                </div>
+
+                <div class="dropdown" id="userAuthBox" style="display:none;">
+                    <span class="dropbtn user-name" id="userWelcome">
+                        <img src="" class="user-profile-img" style="display:none;">
+                        <img src="icons/account_circle.svg" class="account-icon default-user-icon" style="filter: invert(1); height: 20px;">
+                        <span class="username-text"></span>
+                        <span class="chevron" style="margin-left: 0.2rem;"></span>
+                    </span>
+                    <div class="dropdown-content glass dropdown-right" id="userDropdownMenu">
+                        <a href="my-account.html">
+                            <img src="icons/account_circle.svg" alt="My Account" style="height: 18px; filter: invert(1);">
+                            <span>My Account</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" onclick="userLogout()">
+                            <img src="icons/logout.svg" alt="Logout" style="height: 18px; filter: invert(1);">
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="section-container" style="padding: 4rem 2rem;">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h2 class="text-gradient" style="font-size: 2.5rem;">Item Details</h2>
+        </div>
+
+        <div class="details-grid">
+            <div style="border-radius: 24px; overflow: hidden; border: 1px solid var(--glass-border); box-shadow: var(--card-shadow);">
+                <img src="https://via.placeholder.com/600x400" alt="Item Image" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+
+            <div class="item-info-card glass">
+                <div style="display: flex; gap: 1rem; align-items: center;">
+                    <span class="status unmatched">LOST ITEM</span>
+                    <span style="color: var(--text-secondary); font-size: 0.9rem;">Ref: LF-2024-001</span>
+                </div>
+
+                <h3 style="font-size: 2rem; font-weight: 700;">Black Wallet</h3>
+
+                <div style="display: flex; flex-direction: column; gap: 1rem; color: var(--text-secondary);">
+                    <p><strong>Category:</strong> <span style="color: var(--text-primary);">Wallet</span></p>
+                    <p><strong>Status:</strong> <span style="color: var(--accent-blue);">Under Matching</span></p>
+                    <p><strong>Location:</strong> <span style="color: var(--text-primary);">College Canteen</span></p>
+                    <p><strong>Date Reported:</strong> <span style="color: var(--text-primary);">15 Dec 2025</span></p>
+                </div>
+
+                <div style="padding-top: 1.5rem; border-top: 1px solid var(--glass-border);">
+                    <h4 style="margin-bottom: 0.5rem; color: var(--text-primary);">Description</h4>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">
+                        Black leather wallet containing ID card and some cash. Found at the center table in the main canteen area.
+                    </p>
+                </div>
+
+                <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                    <a href="track-status.html" class="btn btn-primary">Track Status</a>
+                    <a href="match-results.html" class="btn btn-secondary">View Match Results</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-bottom" style="margin-top: 0; border: none; padding: 0;">
+                <p>&copy; 2024 Smart Lost & Found System. All rights reserved.</p>
+                <div class="icon-section">
+                    <a href="mailto:rishufren@gmail.com"><img src="./icons/mail.svg" alt="Mail" /></a>
+                    <a href="tel:+919939648228"><img src="./icons/phone.svg" alt="Phone" /></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

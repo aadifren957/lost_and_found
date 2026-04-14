@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms of Service | Smart Lost & Found</title>
+
+    <link rel="icon" href="./logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="section-container">
+            <div class="logo">
+                <a href="index.html" class="logo">
+                    <img src="./logo.png" alt="Logo">
+                    <span class="text-gradient">Smart Lost & Found</span>
+                </a>
+            </div>
+
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="report-lost.html">Lost Items</a>
+                <a href="report-found.html">Found Items</a>
+                <a href="track-status.html">Track Status</a>
+                
+                <!-- LOGIN DROPDOWN -->
+                <div class="dropdown" id="loginDropdown">
+                    <span class="dropbtn">Login <span class="chevron"></span></span>
+                    <div class="dropdown-content glass">
+                        <a href="user-login.html">
+                            <img src="icons/user-icon.svg" style="height: 18px; margin-right: 0.75rem;">
+                            User Login
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="admin-login.html">
+                            <img src="icons/lock.svg" style="height: 18px; margin-right: 0.75rem;">
+                            Admin Login
+                        </a>
+                    </div>
+                </div>
+
+                <!-- USER AUTH DROPDOWN (LOGGED IN) -->
+                <div class="dropdown" id="userAuthBox" style="display:none;">
+                    <span class="dropbtn user-name" id="userWelcome">
+                        <img src="" class="user-profile-img" style="display:none;">
+                        <img src="icons/account_circle.svg" class="account-icon default-user-icon" style="filter: invert(1); height: 20px;">
+                        <span class="username-text"></span>
+                        <span class="chevron" style="margin-left: 0.2rem;"></span>
+                    </span>
+                    <div class="dropdown-content glass dropdown-right" id="userDropdownMenu">
+                        <a href="my-account.html">
+                            <img src="icons/account_circle.svg" alt="My Account" style="height: 18px; filter: invert(1);">
+                            <span>My Account</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" onclick="userLogout()">
+                            <img src="icons/logout.svg" alt="Logout" style="height: 18px; filter: invert(1);">
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="hamburger" id="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="section-container" style="padding: 4rem 2rem;">
+        <div class="glass" style="padding: 3rem; max-width: 900px; margin: 0 auto; line-height: 1.8;">
+            <h1 class="text-gradient" style="font-size: 2.5rem; margin-bottom: 2rem; text-align: center;">Terms of Service</h1>
+            
+            <section style="margin-bottom: 2rem;">
+                <h2 style="color: var(--accent-purple); margin-bottom: 1rem;">1. User Responsibilities</h2>
+                <p style="color: var(--text-secondary);">By using Smart Lost & Found, you agree to provide accurate, current, and complete information during the registration and item reporting processes. You are responsible for maintaining the confidentiality of your account credentials.</p>
+            </section>
+
+            <section style="margin-bottom: 2rem;">
+                <h2 style="color: var(--accent-purple); margin-bottom: 1rem;">2. Rules for Posting Items</h2>
+                <p style="color: var(--text-secondary);">When reporting lost or found items, you must:</p>
+                <ul style="color: var(--text-secondary); list-style: disc; margin-left: 1.5rem; margin-top: 1rem;">
+                    <li>Only post items that you have actually lost or found.</li>
+                    <li>Provide clear and honest descriptions.</li>
+                    <li>Respect the privacy of others when uploading photos.</li>
+                </ul>
+            </section>
+
+            <section style="margin-bottom: 2rem;">
+                <h2 style="color: var(--accent-purple); margin-bottom: 1rem;">3. Prohibited Activities</h2>
+                <p style="color: var(--text-secondary);">The following activities are strictly prohibited on our platform:</p>
+                <ul style="color: var(--text-secondary); list-style: disc; margin-left: 1.5rem; margin-top: 1rem;">
+                    <li>Creating fake listings or spamming the system.</li>
+                    <li>Harassing other users or administrators.</li>
+                    <li>Attempting to circumvent security measures or gain unauthorized access.</li>
+                    <li>Using the platform for illegal transactions or fraudulent claims.</li>
+                </ul>
+            </section>
+
+            <section style="margin-bottom: 2rem;">
+                <h2 style="color: var(--accent-purple); margin-bottom: 1rem;">4. Limitation of Liability</h2>
+                <p style="color: var(--text-secondary);">Smart Lost & Found acts as a facilitator and platform for communication. We are not responsible for the actual return of items, the condition of returned items, or any interactions between users outside our platform. Use the service at your own risk.</p>
+            </section>
+
+            <section style="margin-bottom: 2rem;">
+                <h2 style="color: var(--accent-purple); margin-bottom: 1rem;">5. Account Termination</h2>
+                <p style="color: var(--text-secondary);">We reserve the right to suspend or terminate accounts that violate these Terms of Service or engage in suspicious or harmful activities. Termination may occur with or without prior notice.</p>
+            </section>
+
+            <div style="text-align: center; margin-top: 3rem; color: var(--text-secondary); font-size: 0.9rem;">
+                Acknowledging these terms ensures a safe and helpful community for everyone.
+            </div>
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo" style="margin-bottom: 1.5rem;">
+                        <img src="logo.png" alt="">
+                        <span class="text-gradient">Smart Lost & Found</span>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">Bridging the gap between lost and found using modern technology and community trust.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                        <li><a href="track-status.html">Track Status</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html" class="active" style="color: var(--accent-purple);">Terms of Service</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Contact Us</h5>
+                    <div class="icon-section">
+                        <a href="mailto:rishufren@gmail.com"><img src="./icons/mail.svg" alt="Mail" /></a>
+                        <a href="tel:+919939648228"><img src="./icons/phone.svg" alt="Phone" /></a>
+                        <a href="https://www.instagram.com/"><img src="./icons/instagram-icon.webp" alt="Instagram"></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Lost & Found System. All rights reserved.</p>
+                <a href="index.html"><img src="./icons/Home.svg" alt="" style="height: 24px; filter: invert(1);"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | Smart Lost & Found</title>
+
+    <link rel="icon" href="./logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin-top: 3rem;
+        }
+        .team-card {
+            text-align: center;
+            padding: 2.5rem;
+            transition: var(--transition-smooth);
+            border: 1px solid var(--glass-border);
+        }
+        .team-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-blue);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+        .team-img-wrapper {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            border-radius: 50%;
+            padding: 5px;
+            background: linear-gradient(45deg, var(--accent-blue), var(--accent-purple));
+        }
+        .team-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            background: var(--bg-secondary);
+        }
+        .team-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        .team-card p {
+            color: var(--accent-blue);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="section-container">
+            <div class="logo">
+                <a href="index.html" class="logo">
+                    <img src="./logo.png" alt="Logo">
+                    <span class="text-gradient">Smart Lost & Found</span>
+                </a>
+            </div>
+
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="report-lost.html">Lost Items</a>
+                <a href="report-found.html">Found Items</a>
+                <a href="track-status.html">Track Status</a>
+                
+                <!-- LOGIN DROPDOWN -->
+                <div class="dropdown" id="loginDropdown">
+                    <span class="dropbtn">Login <span class="chevron"></span></span>
+                    <div class="dropdown-content glass">
+                        <a href="user-login.html">
+                            <img src="icons/user-icon.svg" style="height: 18px; margin-right: 0.75rem;">
+                            User Login
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="admin-login.html">
+                            <img src="icons/lock.svg" style="height: 18px; margin-right: 0.75rem;">
+                            Admin Login
+                        </a>
+                    </div>
+                </div>
+
+                <!-- USER AUTH DROPDOWN (LOGGED IN) -->
+                <div class="dropdown" id="userAuthBox" style="display:none;">
+                    <span class="dropbtn user-name" id="userWelcome">
+                        <img src="" class="user-profile-img" style="display:none;">
+                        <img src="icons/account_circle.svg" class="account-icon default-user-icon" style="filter: invert(1); height: 20px;">
+                        <span class="username-text"></span>
+                        <span class="chevron" style="margin-left: 0.2rem;"></span>
+                    </span>
+                    <div class="dropdown-content glass dropdown-right" id="userDropdownMenu">
+                        <a href="my-account.html">
+                            <img src="icons/account_circle.svg" alt="My Account" style="height: 18px; filter: invert(1);">
+                            <span>My Account</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" onclick="userLogout()">
+                            <img src="icons/logout.svg" alt="Logout" style="height: 18px; filter: invert(1);">
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="section-container" style="padding: 6rem 2rem;">
+        
+        <!-- PROJECT DESCRIPTION -->
+        <section style="text-align: center; margin-bottom: 6rem;">
+            <h1 class="text-gradient" style="font-size: 3rem; font-weight: 800; margin-bottom: 1.5rem;">About Smart Lost & Found</h1>
+            <div class="glass" style="padding: 3rem; max-width: 1000px; margin: 0 auto;">
+                <p style="color: var(--text-secondary); font-size: 1.15rem; line-height: 1.7;">
+                    Smart Lost & Found is a modern, community-driven platform designed to reunite people with their misplaced belongings. By leveraging advanced matching algorithms and a seamless real-time database, we bridge the gap between finders and losers more efficiently than ever before. Our system analyzes keywords, categories, and locations to find potential matches instantly, taking the stress out of losing your valuables.
+                </p>
+            </div>
+        </section>
+
+        <!-- TEAM SECTION -->
+        <section>
+            <h2 class="text-gradient" style="font-size: 2.2rem; text-align: center; margin-bottom: 3rem;">Meet Our Team</h2>
+            
+            <div class="team-grid">
+                <!-- Member 1 -->
+                <div class="team-card glass">
+                    <div class="team-img-wrapper">
+                        <img src="./aaditya.jpeg" alt="Aaditya Ray" class="team-img">
+                    </div>
+                    <h3>Aaditya Ray</h3>
+                    <p>Backend & Database Engine</p>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">
+                        Handles Node.js logic and MongoDB architecture to ensure real-time matching.
+                    </div>
+                </div>
+
+                <!-- Member 2 -->
+                <div class="team-card glass">
+                    <div class="team-img-wrapper">
+                        <img src="./suraj.jpeg" alt="Suraj Bhul" class="team-img">
+                    </div>
+                    <h3>Suraj Bhul</h3>
+                    <p>Frontend Designer</p>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">
+                        Crafts stunning glassmorphic UI using Vanilla HTML, CSS, and JS.
+                    </div>
+                </div>
+
+                <!-- Member 3 -->
+                <div class="team-card glass">
+                    <div class="team-img-wrapper">
+                        <img src="./tanishk.jpeg" alt="Tanishk More" class="team-img">
+                    </div>
+                    <h3>Tanishk More</h3>
+                    <p>Workflow Designer</p>
+                    <div style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 1rem;">
+                        Ensures the entire system flow and user journey is logical and efficient.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo" style="margin-bottom: 1.5rem;">
+                        <img src="logo.png" alt="">
+                        <span class="text-gradient">Smart Lost & Found</span>
+                    </div>
+                    <p style="color: var(--text-secondary); line-height: 1.6;">Bridging the gap between lost and found using modern technology and community trust.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                        <li><a href="track-status.html">Track Status</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <ul style="display: flex; flex-direction: column; gap: 0.8rem;">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="about.html" class="active" style="color: var(--accent-emerald);">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Contact Us</h5>
+                    <div class="icon-section">
+                        <a href="mailto:rishufren@gmail.com"><img src="./icons/mail.svg" alt="Mail" /></a>
+                        <a href="tel:+919939648228"><img src="./icons/phone.svg" alt="Phone" /></a>
+                        <a href="https://www.instagram.com/"><img src="./icons/instagram-icon.webp" alt="Instagram"></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Lost & Found System. All rights reserved.</p>
+                <a href="index.html"><img src="./icons/Home.svg" alt="" style="height: 24px; filter: invert(1);"></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
