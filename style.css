@@ -819,6 +819,8 @@ ul {
     padding: 2rem 1rem;
     position: fixed;
     height: 100vh;
+    transition: transform var(--transition-smooth);
+    z-index: 1000;
 }
 
 .admin-main {
@@ -826,6 +828,27 @@ ul {
     padding: 3rem;
     margin-left: 260px;
     background: var(--bg-primary);
+    transition: margin-left var(--transition-smooth);
+}
+
+/* Sidebar Toggle Logic */
+.sidebar-collapsed .sidebar {
+    transform: translateX(-100%);
+}
+
+.sidebar-collapsed .admin-main {
+    margin-left: 0;
+}
+
+/* Hamburger Animation to X */
+.admin-hamburger.active .bar:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+.admin-hamburger.active .bar:nth-child(2) {
+    opacity: 0;
+}
+.admin-hamburger.active .bar:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
 }
 
 .sidebar-menu li {
@@ -1015,7 +1038,7 @@ ul {
 }
 
 /* HAMBURGER */
-.hamburger {
+.hamburger, .admin-hamburger {
     display: none;
     cursor: pointer;
     flex-direction: column;
@@ -1023,12 +1046,16 @@ ul {
     z-index: 1001;
 }
 
-.hamburger .bar {
+.hamburger .bar, .admin-hamburger .bar {
     width: 25px;
     height: 3px;
     background: white;
     border-radius: 5px;
     transition: var(--transition-smooth);
+}
+
+.admin-hamburger {
+    display: flex; /* Always show in admin dashboard for now */
 }
 
 /* RESPONSIVENESS */

@@ -11,9 +11,16 @@
 <!-- HEADER -->
 <header class="header" style="position: fixed; width: 100%; border-bottom: 1px solid var(--glass-border);">
     <div class="section-container" style="max-width: 100%; padding: 0 2rem;">
-        <div class="logo">
-            <img src="logo.png" alt="Logo">
-            <span class="text-gradient">Admin Panel</span>
+        <div style="display: flex; align-items: center; gap: 1.5rem;">
+            <div class="admin-hamburger" id="adminSidebarToggle">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+            <div class="logo">
+                <img src="logo.png" alt="Logo">
+                <span class="text-gradient">Admin Panel</span>
+            </div>
         </div>
         <button type="button" class="btn btn-secondary" style="padding: 0.5rem 1.25rem; border-radius: 8px; font-size: 0.9rem;" onclick="adminLogout()">
             Logout
@@ -22,7 +29,7 @@
 </header>
 
 <!-- DASHBOARD LAYOUT -->
-<div class="admin-layout" style="padding-top: 70px;">
+<div class="admin-layout sidebar-collapsed" style="padding-top: 70px;">
 
     <!-- SIDEBAR -->
     <aside class="sidebar">

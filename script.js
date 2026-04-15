@@ -439,6 +439,29 @@ window.addEventListener("load", () => {
 
 });
 
+// ================================
+// ADMIN SIDEBAR TOGGLE
+// ================================
+document.addEventListener("DOMContentLoaded", () => {
+    const adminToggle = document.getElementById("adminSidebarToggle");
+    const adminLayout = document.querySelector(".admin-layout");
+
+    if (adminToggle && adminLayout) {
+        // Toggle sidebar on click
+        adminToggle.addEventListener("click", () => {
+            adminToggle.classList.toggle("active");
+            adminLayout.classList.toggle("sidebar-collapsed");
+        });
+
+        // Optional: Start collapsed on mobile by default
+        if (window.innerWidth <= 768) {
+            adminLayout.classList.add("sidebar-collapsed");
+            adminToggle.classList.remove("active");
+        }
+    }
+});
+
+
 
 
 
