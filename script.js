@@ -1071,6 +1071,12 @@ async function findMatchesFor(lostItemId, lostTitle) {
     const section = document.getElementById("matchResultsSection");
     const heading = document.getElementById("matchResultsHeading");
     const tbody = document.getElementById("matchResultsBody");
+    const persistentToast = document.getElementById("persistentToast");
+
+    if (persistentToast) {
+        persistentToast.style.display = "block";
+    }
+
     if (!section || !tbody) return;
 
     section.style.display = "block";
