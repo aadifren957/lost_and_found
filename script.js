@@ -248,7 +248,7 @@ document.getElementById("foundForm")?.addEventListener("submit", async function(
         const data = await response.json();
 
         if (response.ok) {
-            showToast("✅ Found item reported successfully!");
+            showToast("Please return the item to the admin office!", 5000);
             console.log(data);
 
             document.getElementById("foundForm").reset();
