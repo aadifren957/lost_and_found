@@ -1259,21 +1259,21 @@ function openFoundItemModal(index) {
 
     // ✅ BUTTON LOGIC (clean reset first)
     const returnBtn = document.getElementById("returnBtn");
-
-    // remove old onclick (important to avoid stacking)
     returnBtn.onclick = null;
 
-    if (item.status === "matched") {
-        returnBtn.disabled = false;
-        returnBtn.textContent = "Mark as Returned";
-
-        returnBtn.onclick = () => {
-            markItemReturned(item._id);
-        };
-
+    if (item.status === "returned") {
+        returnBtn.style.display = "none";
     } else {
-        returnBtn.disabled = true;
-        returnBtn.textContent = "Waiting for Match Approval";
+        returnBtn.style.display = "block";
+        
+        if (item.status === "matched") {
+            returnBtn.disabled = false;
+            returnBtn.textContent = "Mark as Returned";
+            returnBtn.onclick = () => markItemReturned(item._id);
+        } else {
+            returnBtn.disabled = true;
+            returnBtn.textContent = "Waiting for Match Approval";
+        }
     }
 
     // ✅ OPEN MODAL
@@ -1295,19 +1295,27 @@ async function loadMatchRequests() {
         const res = await fetch(`${BASE_URL}/api/matches`);
         const data = await res.json();
 
-        console.log("MATCH DATA:", data);
+        // ✅ Filter for 70%+ matches
+        const highConfidenceMatches = data.filter(m => (m.score || 0) >= 70);
 
-        // ✅ Store globally
-        matchRequests = data;
+        console.log("HIGH CONFIDENCE MATCHES:", highConfidenceMatches);
+
+        // ✅ Store filtered globally
+        matchRequests = highConfidenceMatches;
+
+        if (highConfidenceMatches.length === 0) {
+            tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">No high-confidence matches (70%+) pending.</td></tr>`;
+            return;
+        }
 
         tableBody.innerHTML = "";
 
         // ✅ Use map + join (faster than +=)
-        const rows = data.map((match, index) => {
+        const rows = highConfidenceMatches.map((match, index) => {
             const lost = match.lostItem || {};
             const found = match.foundItem || {};
 
-            // ✅ SAFE SCORE HANDLING (fixes NaN / 10000% bug)
+            // ✅ SAFE SCORE HANDLING
             const score = match.score ? (match.score).toFixed(2) : "0.00";
 
             return `
