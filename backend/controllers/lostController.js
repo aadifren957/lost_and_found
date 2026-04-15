@@ -47,9 +47,8 @@ exports.reportLostItem = async (req, res) => {
 
         await newItem.save();
 
-        // 🔥🔥🔥 ADD THIS BLOCK (IMPORTANT)
         try {
-            await axios.get(`http://127.0.0.1:${process.env.PORT || 5000}/api/matches/find/${newItem._id}`);
+            await axios.get(`${process.env.FRONTEND_URL}/api/matches/find/${newItem._id}`);
             console.log("✅ Matching triggered for lost item");
         } catch (matchError) {
             console.error("❌ Matching failed:", matchError.message);

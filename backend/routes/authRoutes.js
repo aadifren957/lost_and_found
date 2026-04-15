@@ -32,7 +32,7 @@ router.get("/google/callback",
 
         // 🔥 Redirect to frontend with token in URL
         // Using http://127.0.0.1:5501 which is the common Live Server port, or index.html
-        res.redirect(`http://127.0.0.1:5501/index.html?token=${token}`);
+        res.redirect(`${process.env.FRONTEND_URL}/index.html?token=${token}`);
     }
 );
 

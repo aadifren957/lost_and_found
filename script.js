@@ -69,13 +69,7 @@ function showToast(message, duration = 3000) {
             toast.classList.remove("show");
         }, duration);
     } else {
-        alert(message); // Fallback
-    }
-}
-
-// Insert items into grid
-// Hamburger Menu Toggle Logic
-document.addEventListener("DOMContentLoaded", function () {
+        alert(message); // FallbASLoaded", function () {
     const hamburger = document.getElementById("hamburger");
     const nav = document.querySelector(".nav");
     const dropdowns = document.querySelectorAll(".dropdown");
