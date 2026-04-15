@@ -69,7 +69,12 @@ function showToast(message, duration = 3000) {
             toast.classList.remove("show");
         }, duration);
     } else {
-        alert(message); // FallbASLoaded", function () {
+        alert(message); // Fallback for browsers without toast support
+    }
+}
+
+// Helper for Mobile Navigation
+document.addEventListener("DOMContentLoaded", function () {
     const hamburger = document.getElementById("hamburger");
     const nav = document.querySelector(".nav");
     const dropdowns = document.querySelectorAll(".dropdown");
