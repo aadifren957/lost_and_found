@@ -1098,8 +1098,15 @@ async function findMatchesFor(lostItemId, lostTitle) {
             return;
         }
 
+        const filteredResults = results.filter(r => Math.round(r.score || 0) >= 70);
+
+        if (filteredResults.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No high-confidence matches (70%+) found yet.</td></tr>`;
+            return;
+        }
+
         tbody.innerHTML = "";
-        results.forEach(({ foundItem, score }) => {
+        filteredResults.forEach(({ foundItem, score }) => {
             const s = Math.round(score || 0);
             let cls = "low";
             if (s >= 75) cls = "high";
