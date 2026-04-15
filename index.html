@@ -83,8 +83,9 @@
             <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 3rem;">The most advanced community-driven lost and found system.</p>
             
             <div class="search-box glass">
-                <input type="text" id="searchInput" placeholder="Search for lost items (e.g. Black Wallet, Keys)...">
+                <input type="text" id="searchInput" placeholder="Search for lost items (e.g. Black Wallet, Keys)..." autocomplete="off">
                 <button onclick="searchItems()" class="btn-primary">Search</button>
+                <div id="searchSuggestions" class="suggestions-container glass"></div>
             </div>
 
             <div class="action-buttons" style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 2rem;">

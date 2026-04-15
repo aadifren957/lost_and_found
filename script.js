@@ -135,11 +135,90 @@ document.addEventListener("DOMContentLoaded", function () {
 
 function searchItems() {
     const text = document.getElementById("searchInput").value;
+    if (!isUserLoggedIn()) {
+        showToast("Please Login to search your lost Item");
+        return;
+    }
     if (text) {
         showToast("🔍 Searching for: " + text);
     } else {
         showToast("Please enter a search term");
     }
+}
+
+// SEARCH SUGGESTIONS LOGIC
+let myLostItemsCache = null;
+
+async function fetchMyItemsForSuggestions() {
+    if (myLostItemsCache) return myLostItemsCache;
+    try {
+        const res = await fetch(`${BASE_URL}/api/lost/mine`, {
+            headers: getAuthHeaders()
+        });
+        if (res.ok) {
+            myLostItemsCache = await res.json();
+            return myLostItemsCache;
+        }
+    } catch (err) {
+        console.error("Error fetching items for suggestions:", err);
+    }
+    return [];
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("searchInput");
+    const suggestionsContainer = document.getElementById("searchSuggestions");
+
+    if (searchInput && suggestionsContainer) {
+        searchInput.addEventListener("input", async () => {
+            const query = searchInput.value.trim().toLowerCase();
+            
+            if (!isUserLoggedIn()) {
+                if (query.length > 0) {
+                    showToast("Please Login to search your lost Item");
+                    searchInput.value = ""; // Clear input to prevent further spam
+                }
+                return;
+            }
+
+            if (query.length === 0) {
+                suggestionsContainer.style.display = "none";
+                return;
+            }
+
+            const items = await fetchMyItemsForSuggestions();
+            const filtered = items.filter(item => 
+                item.title.toLowerCase().includes(query) || 
+                (item.category && item.category.toLowerCase().includes(query))
+            );
+
+            if (filtered.length > 0) {
+                suggestionsContainer.innerHTML = filtered.map(item => `
+                    <div class="suggestion-item" onclick="redirectToTrack('${item._id}', '${item.title.replace(/'/g, "\\'")}')">
+                        <img src="${imgUrl(item.image)}" alt="">
+                        <div class="suggestion-info">
+                            <h4>${item.title}</h4>
+                            <p>${item.category || "No Category"} • ${item.location || "No Location"}</p>
+                        </div>
+                    </div>
+                `).join("");
+                suggestionsContainer.style.display = "block";
+            } else {
+                suggestionsContainer.style.display = "none";
+            }
+        });
+
+        // Close suggestions when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+                suggestionsContainer.style.display = "none";
+            }
+        });
+    }
+});
+
+function redirectToTrack(itemId, title) {
+    window.location.href = `track-status.html?id=${itemId}&title=${encodeURIComponent(title)}`;
 }
 
 // Preview uploaded image
@@ -1152,7 +1231,18 @@ async function findMatchesFor(lostItemId, lostTitle) {
     }
 }
 
-document.addEventListener("DOMContentLoaded", loadMyLostItems);
+document.addEventListener("DOMContentLoaded", async () => {
+    await loadMyLostItems();
+    
+    // Check for auto-track params
+    const urlParams = new URLSearchParams(window.location.search);
+    const trackId = urlParams.get("id");
+    const trackTitle = urlParams.get("title");
+
+    if (trackId && trackTitle) {
+        findMatchesFor(trackId, trackTitle);
+    }
+});
 
 async function loadLostItemsAdmin() {
     try {
