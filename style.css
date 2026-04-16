@@ -66,6 +66,37 @@ ul {
     -webkit-text-fill-color: transparent;
 }
 
+/* SECTION HEADER DECORATIONS */
+.section-header-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    z-index: 1;
+}
+
+.bg-icon-wrapper {
+    position: absolute;
+    left: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: -1;
+    opacity: 0.1;
+    pointer-events: none;
+    animation: bgFloat 6s ease-in-out infinite;
+}
+
+.bg-icon-wrapper svg {
+    width: 100px;
+    height: 100px;
+}
+
+@keyframes bgFloat {
+    0%, 100% { transform: translateY(-50%) translateX(0) rotate(0deg); }
+    33% { transform: translateY(-55%) translateX(5px) rotate(5deg); }
+    66% { transform: translateY(-45%) translateX(-5px) rotate(-5deg); }
+}
+
 .section-container {
     max-width: 1200px;
     margin: 0 auto;
