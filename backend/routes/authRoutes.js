@@ -3,11 +3,12 @@ const router = express.Router();
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
-const { signup, login, getProfile } = require("../controllers/authController");
+const { signup, login, getProfile, sendOTP } = require("../controllers/authController");
 const { protect: auth } = require("../middleware/authMiddleware");
 
 // Existing Routes
 router.post("/signup", signup);
+router.post("/send-otp", sendOTP);
 router.post("/login", login);
 router.get("/profile", auth, getProfile);
 

@@ -25,6 +25,15 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         default: "user"
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
+    },
+    authType: {
+        type: String,
+        enum: ["manual", "google"],
+        default: "manual"
     }
 }, {
     timestamps: true

@@ -28,6 +28,7 @@ async (accessToken, refreshToken, profile, done) => {
             // Link Google account to existing email account
             user.googleId = googleId;
             if (!user.profilePic) user.profilePic = profilePic;
+            user.isVerified = true; // Google verifies the email
             await user.save();
             return done(null, user);
         }
@@ -37,7 +38,9 @@ async (accessToken, refreshToken, profile, done) => {
             name,
             email,
             googleId,
-            profilePic
+            profilePic,
+            isVerified: true,
+            authType: "google"
         });
 
         await user.save();

@@ -1,6 +1,9 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const otpGenerator = require("otp-generator");
+const OTP = require("../models/OTP");
+const { sendOTPEmail, sendWelcomeEmail } = require("../utils/emailUtils");
 
 // Get Profile
 exports.getProfile = async (req, res) => {
@@ -15,27 +18,86 @@ exports.getProfile = async (req, res) => {
     }
 };
 
+// Send OTP
+exports.sendOTP = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({ message: "Email is required" });
+        }
+
+        // Check if user already exists
+        const existingUser = await User.findOne({ email });
+        if (existingUser) {
+            return res.status(400).json({ message: "User already registered with this email" });
+        }
+
+        // Generate 6-digit OTP
+        const otp = otpGenerator.generate(6, {
+            upperCaseAlphabets: false,
+            lowerCaseAlphabets: false,
+            specialChars: false
+        });
+
+        // Save to DB (upsert)
+        await OTP.findOneAndUpdate(
+            { email },
+            { otp, createdAt: new Date() },
+            { upsert: true, new: true, setDefaultsOnInsert: true }
+        );
+
+        // Send Email
+        await sendOTPEmail(email, otp);
+
+        res.status(200).json({ message: "OTP sent successfully to your email" });
+
+    } catch (error) {
+        console.error("SEND OTP ERROR:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
 // Signup
 exports.signup = async (req, res) => {
     try {
-        const { name, email, password } = req.body;
+        const { name, email, password, otp } = req.body;
 
-        // Check if user exists
+        if (!name || !email || !password || !otp) {
+            return res.status(400).json({ message: "All fields are required" });
+        }
+
+        // 1. Verify OTP
+        const otpRecord = await OTP.findOne({ email });
+        if (!otpRecord || otpRecord.otp !== otp) {
+            return res.status(400).json({ message: "Invalid or expired OTP" });
+        }
+
+        // 2. Check if user exists (Double check)
         let user = await User.findOne({ email });
         if (user) {
             return res.status(400).json({ message: "User already exists" });
         }
 
-        // Hash password
+        // 3. Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
 
+        // 4. Create User
         user = new User({
             name,
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            isVerified: true, // Mark as verified since OTP matched
+            authType: "manual"
         });
 
         await user.save();
+
+        // 5. Delete OTP record
+        await OTP.deleteOne({ email });
+
+        // 6. Send Welcome Email
+        await sendWelcomeEmail(email, name);
 
         res.status(201).json({ message: "User registered successfully" });
 

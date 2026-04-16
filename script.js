@@ -627,33 +627,122 @@ function markItemReturned() {
 
 
 // ===============================
-// USER SIGNUP (FRONTEND ONLY)
 // ===============================
-document.getElementById("userSignupForm")?.addEventListener("submit", function (e) {
-    e.preventDefault();
+// GET OTP
+// ===============================
+async function getOTP() {
+    const emailInput = document.getElementById("signupEmail");
+    const email = emailInput.value.trim();
+    const btn = document.getElementById("getOTPBtn");
+    const btnText = btn.querySelector("span");
 
-    const name = document.getElementById("signupName").value.trim();
-    const email = document.getElementById("signupEmail").value.trim();
-    const password = document.getElementById("signupPassword").value;
-    const confirmPassword = document.getElementById("signupConfirmPassword").value;
-
-    if (password !== confirmPassword) {
-        alert("Passwords do not match!");
+    if (!email) {
+        showToast("👉 Enter your E-Mail ID to get OTP");
         return;
     }
 
-    // Store user temporarily (demo purpose)
-    const userData = {
-        name,
-        email,
-        password
-    };
+    // Basic email regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showToast("❌ Please enter a valid email address");
+        return;
+    }
 
-    localStorage.setItem("demoUser", JSON.stringify(userData));
+    try {
+        // UI Loading State
+        btn.disabled = true;
+        btnText.textContent = "Sending...";
+        
+        const response = await fetch(`${BASE_URL}/api/auth/send-otp`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email })
+        });
 
-    alert("Signup successful! Please login.");
-    window.location.href = "user-login.html";
-});
+        const data = await response.json();
+
+        if (response.ok) {
+            // Mask email for privacy (Bonus)
+            const parts = email.split("@");
+            const maskedEmail = parts[0][0] + "***@" + parts[1];
+            showToast(`✅ OTP sent to ${maskedEmail}`);
+
+            // 30s Cooldown (Bonus)
+            let cooldown = 30;
+            const timer = setInterval(() => {
+                cooldown--;
+                btnText.textContent = `Resend in ${cooldown}s`;
+                if (cooldown <= 0) {
+                    clearInterval(timer);
+                    btn.disabled = false;
+                    btnText.textContent = "Get OTP";
+                }
+            }, 1000);
+        } else {
+            showToast(`❌ ${data.message || "Failed to send OTP"}`);
+            btn.disabled = false;
+            btnText.textContent = "Get OTP";
+        }
+    } catch (error) {
+        console.error("GET OTP ERROR:", error);
+        showToast("❌ Server error");
+        btn.disabled = false;
+        btnText.textContent = "Get OTP";
+    }
+}
+
+// ===============================
+// USER SIGNUP (REAL)
+// ===============================
+async function signupUser() {
+    const name = document.getElementById("signupName").value.trim();
+    const email = document.getElementById("signupEmail").value.trim();
+    const otp = document.getElementById("signupOTP").value.trim();
+    const password = document.getElementById("signupPassword").value;
+    const confirmPassword = document.getElementById("signupConfirmPassword").value;
+
+    if (!name || !email || !password || !otp) {
+        showToast("⚠️ All fields are required!");
+        return;
+    }
+
+    if (password !== confirmPassword) {
+        showToast("❌ Passwords do not match!");
+        return;
+    }
+
+    try {
+        const signupBtn = document.getElementById("signupBtn");
+        const originalText = signupBtn.textContent;
+        signupBtn.disabled = true;
+        signupBtn.textContent = "Creating Account...";
+
+        const response = await fetch(`${BASE_URL}/api/auth/signup`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, email, password, otp })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            showToast("✅ Signup successful! Redirecting to login...");
+            setTimeout(() => {
+                window.location.href = "user-login.html";
+            }, 2000);
+        } else {
+            showToast(`❌ ${data.message || "Signup failed"}`);
+            signupBtn.disabled = false;
+            signupBtn.textContent = originalText;
+        }
+    } catch (error) {
+        console.error("SIGNUP ERROR:", error);
+        showToast("❌ Server error");
+        const signupBtn = document.getElementById("signupBtn");
+        signupBtn.disabled = false;
+        signupBtn.textContent = "Sign Up";
+    }
+}
 
 
 
