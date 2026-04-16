@@ -27,6 +27,14 @@ exports.sendOTP = async (req, res) => {
             return res.status(400).json({ message: "Email is required" });
         }
 
+        // 🛡️ CHECK CONFIG (Helpful for debugging)
+        if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+            console.error("CRITICAL: Email credentials not configured in .env");
+            return res.status(500).json({ 
+                message: "Email service not configured. Please add EMAIL_USER and EMAIL_PASS to environment variables." 
+            });
+        }
+
         // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {

@@ -971,14 +971,6 @@ function checkStrength(password) {
 });
 
 
-const passwordInput = document.getElementById("signupPassword");
-
-if (passwordInput) {
-    passwordInput.addEventListener("input", () => {
-        checkStrength(passwordInput.value);
-    });
-}
-
 
 
 
