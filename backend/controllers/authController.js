@@ -6,7 +6,8 @@ const OTP = require("../models/OTP");
 const { sendOTPEmail, sendWelcomeEmail } = require("../utils/emailUtils");
 
 // Get Profile
-exports.getProfile = async (req, res) => {
+exports.getProfile = async (req, res) => 
+    {
     try {
         const user = await User.findById(req.user.id).select("-password");
         if (!user) return res.status(404).json({ message: "User not found" });
