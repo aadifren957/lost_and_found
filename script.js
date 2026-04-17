@@ -22,10 +22,19 @@ function getAuthHeaders() {
     };
 }
 
-// 🔥 HANDLE GOOGLE AUTH TOKEN IN URL
+// 🔥 HANDLE GOOGLE AUTH TOKEN OR ERROR IN URL
 async function handleGoogleAuth() {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get("token");
+    const error = urlParams.get("error");
+
+    if (error) {
+        showToast(`❌ ${decodeURIComponent(error)}`);
+        // Remove error from URL to keep it clean
+        const newUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+        return;
+    }
 
     if (token) {
         localStorage.setItem("token", token);

@@ -1,6 +1,7 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const User = require("../models/User");
+const { isValidOrganizationEmail } = require("../utils/validateUtils");
 
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
@@ -13,6 +14,11 @@ async (accessToken, refreshToken, profile, done) => {
         const googleId = profile.id;
         const name = profile.displayName;
         const profilePic = profile.photos[0].value;
+
+        // Domain Restriction Check
+        if (!isValidOrganizationEmail(email)) {
+            return done(null, false, { message: "You are not from this organization!" });
+        }
 
         // 1. Check if user already exists with this Google ID
         let user = await User.findOne({ googleId });

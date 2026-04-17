@@ -4,6 +4,7 @@ const jwt = require("jsonwebtoken");
 const otpGenerator = require("otp-generator");
 const OTP = require("../models/OTP");
 const { sendOTPEmail, sendWelcomeEmail } = require("../utils/emailUtils");
+const { isValidOrganizationEmail } = require("../utils/validateUtils");
 
 // Get Profile
 exports.getProfile = async (req, res) => 
@@ -34,6 +35,11 @@ exports.sendOTP = async (req, res) => {
             return res.status(500).json({ 
                 message: "Email service not configured. Please add EMAIL_USER and EMAIL_PASS to environment variables." 
             });
+        }
+
+        // Domain Restriction Check
+        if (!isValidOrganizationEmail(email)) {
+            return res.status(400).json({ message: "You are not from this organization!" });
         }
 
         // Check if user already exists
@@ -74,6 +80,11 @@ exports.signup = async (req, res) => {
 
         if (!name || !email || !password || !otp) {
             return res.status(400).json({ message: "All fields are required" });
+        }
+
+        // Domain Restriction Check (Final Safety)
+        if (!isValidOrganizationEmail(email)) {
+            return res.status(400).json({ message: "You are not from this organization!" });
         }
 
         // 1. Verify OTP
@@ -124,6 +135,11 @@ exports.login = async (req, res) => {
 
         if (!email || !password) {
             return res.status(400).json({ message: "Email and password are required" });
+        }
+
+        // Domain Restriction Check
+        if (!isValidOrganizationEmail(email)) {
+            return res.status(400).json({ message: "You are not from this organization!" });
         }
 
         const user = await User.findOne({ email });
