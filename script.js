@@ -468,18 +468,7 @@ function checkAdminAccess() {
 // ADMIN LOGOUT
 // ================================
 
-function adminLogout() {
-    const confirmLogout = confirm("Are you sure you want to logout?");
 
-    if (confirmLogout) {
-        sessionStorage.removeItem("isAdminLoggedIn");
-
-        // Flag to show toast after redirect
-        sessionStorage.setItem("showLogoutToast", "true");
-
-        window.location.href = "admin-login.html";
-    }
-}
 
 
 window.addEventListener("load", () => {
@@ -545,32 +534,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-function closeMatchModal() {
-    document.getElementById("matchModal").style.display = "none";
-}
 
-
-function approveMatch() {
-    updateMatchStatus("Approved", "approved");
-}
-
-function rejectMatch() {
-    updateMatchStatus("Rejected", "rejected");
-}
-
-function updateMatchStatus(text, statusClass) {
-    const statusEl = document.getElementById("matchStatus");
-
-    if (!statusEl) {
-        console.error("matchStatus element not found");
-        return;
-    }
-
-    statusEl.textContent = text;
-    statusEl.className = `status ${statusClass}`;
-
-    closeMatchModal();
-}
 
 
 // ============================
@@ -620,9 +584,7 @@ document.addEventListener("click", function (e) {
 
 
 
-function markItemReturned() {
-    alert("Item marked as returned (frontend only)");
-}
+
 
 
 
@@ -702,6 +664,12 @@ async function signupUser() {
     const confirmPassword = document.getElementById("signupConfirmPassword").value;
 
     if (!name || !email || !password || !otp) {
+        console.log("FRONTEND VALIDATION ERROR - Missing Fields:", { 
+            name: name ? "OK" : "MISSING", 
+            email: email ? "OK" : "MISSING", 
+            password: password ? "OK" : "MISSING", 
+            otp: otp ? "OK" : "MISSING" 
+        });
         showToast("⚠️ All fields are required!");
         return;
     }
@@ -1012,47 +980,7 @@ document.addEventListener("DOMContentLoaded", () => {
     emailInput.value = user.email;
 });
 
-async function signupUser() {
-    const name = document.getElementById("signupName").value;
-    const email = document.getElementById("signupEmail").value;
-    const password = document.getElementById("signupPassword").value;
-    const confirmPassword = document.getElementById("signupConfirmPassword").value;
 
-    // Basic validation
-    if (password !== confirmPassword) {
-        showToast("⚠️ Passwords do not match!");
-        return;
-    }
-
-    try {
-        const response = await fetch(`${BASE_URL}/api/auth/signup`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name, email, password })
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-            showToast("✅ Signup successful!");
-            console.log(data);
-
-            // Optional: redirect to login
-            setTimeout(() => {
-                window.location.href = "user-login.html";
-            }, 1500);
-
-        } else {
-            showToast(data.message || "Signup failed");
-        }
-
-    } catch (error) {
-        console.error(error);
-        showToast("❌ Server error");
-    }
-}
 async function loginUser() {
     const email = document.getElementById("loginEmail")?.value;
     const password = document.getElementById("loginPassword")?.value;
