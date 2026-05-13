@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honesty Leaderboard - Lost & Found</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .tab-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .leaderboard-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        .leaderboard-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 50px 1fr 1fr 1fr 1fr;
+            gap: 20px;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .leaderboard-body {
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .leaderboard-row {
+            display: grid;
+            grid-template-columns: 50px 1fr 1fr 1fr 1fr;
+            gap: 20px;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-row:hover {
+            background: #f5f5f5;
+            padding-left: 25px;
+        }
+
+        .leaderboard-row:nth-child(odd) {
+            background: #fafafa;
+        }
+
+        .rank {
+            font-size: 1.3em;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .rank.top-1 {
+            color: #ffd700;
+            font-size: 1.5em;
+        }
+
+        .rank.top-2 {
+            color: #c0c0c0;
+            font-size: 1.4em;
+        }
+
+        .rank.top-3 {
+            color: #cd7f32;
+            font-size: 1.35em;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            overflow: hidden;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .badge.beginner {
+            background: #e8f4f8;
+            color: #0099cc;
+        }
+
+        .badge.trusted {
+            background: #fff3e0;
+            color: #ff9800;
+        }
+
+        .badge.guardian {
+            background: #f3e5f5;
+            color: #9c27b0;
+        }
+
+        .badge.platinum {
+            background: #e1f5fe;
+            color: #0277bd;
+        }
+
+        .score {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: #667eea;
+            text-align: right;
+        }
+
+        .items-returned {
+            text-align: center;
+            color: #666;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 0.95em;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: white;
+        }
+
+        .error {
+            background: #ff6b6b;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .medal {
+            font-size: 1.5em;
+            margin-right: 5px;
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            .leaderboard-header,
+            .leaderboard-row {
+                grid-template-columns: 40px 1fr 1fr;
+                gap: 10px;
+            }
+
+            .badge,
+            .items-returned {
+                display: none;
+            }
+
+            .score {
+                text-align: left;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🏆 Honesty Leaderboard</h1>
+            <p>Celebrate our most trusted community members</p>
+        </header>
+
+        <div class="stats-container" id="statsContainer">
+            <div class="stat-card">
+                <h3>Total Users</h3>
+                <div class="stat-value" id="totalUsers">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Points Awarded</h3>
+                <div class="stat-value" id="totalPoints">-</div>
+            </div>
+            <div class="stat-card">
+                <h3>Verified Reports</h3>
+                <div class="stat-value" id="verifiedReports">-</div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="global">Global Leaderboard</button>
+            <button class="tab-btn" data-tab="monthly">Top This Month</button>
+            <button class="tab-btn" data-tab="platinum">Platinum Users</button>
+            <button class="tab-btn" data-tab="guardian">Campus Guardians</button>
+            <button class="tab-btn" data-tab="trusted">Trusted Contributors</button>
+        </div>
+
+        <div id="leaderboardContent"></div>
+    </div>
+
+    <script>
+        const API_URL = "http://localhost:5000/api";
+
+        let currentTab = "global";
+
+        // Tab buttons
+        document.querySelectorAll(".tab-btn").forEach(btn => {
+            btn.addEventListener("click", async () => {
+                document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                currentTab = btn.dataset.tab;
+                await loadLeaderboard();
+            });
+        });
+
+        async function loadLeaderboard() {
+            const contentDiv = document.getElementById("leaderboardContent");
+            contentDiv.innerHTML = '<div class="loading">Loading...</div>';
+
+            try {
+                let url, title;
+
+                switch (currentTab) {
+                    case "global":
+                        url = `${API_URL}/honesty/leaderboard?limit=100`;
+                        title = "Global Leaderboard";
+                        break;
+                    case "monthly":
+                        url = `${API_URL}/honesty/leaderboard/month/top`;
+                        title = "Top Users This Month";
+                        break;
+                    case "platinum":
+                        url = `${API_URL}/honesty/leaderboard/badge/Platinum Honest User`;
+                        title = "Platinum Honest Users";
+                        break;
+                    case "guardian":
+                        url = `${API_URL}/honesty/leaderboard/badge/Campus Guardian`;
+                        title = "Campus Guardians";
+                        break;
+                    case "trusted":
+                        url = `${API_URL}/honesty/leaderboard/badge/Trusted Contributor`;
+                        title = "Trusted Contributors";
+                        break;
+                }
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                let users = data.leaderboard || (data.users && data.topUsers) || [];
+                
+                if (currentTab === "monthly" && data.topUsers) {
+                    users = data.topUsers;
+                }
+
+                if (!users || users.length === 0) {
+                    contentDiv.innerHTML = '<div class="leaderboard-card"><div class="no-data">No data available yet. Be the first to join the leaderboard!</div></div>';
+                    return;
+                }
+
+                let html = `
+                    <div class="leaderboard-card">
+                        <div class="leaderboard-header">
+                            <div>Rank</div>
+                            <div>User</div>
+                            <div>Badge</div>
+                            <div>Score</div>
+                            <div>Returned</div>
+                        </div>
+                        <div class="leaderboard-body">
+                `;
+
+                users.forEach((user, index) => {
+                    const rank = user.rank || index + 1;
+                    const medal = rank === 1 ? "🥇" : rank === 2 ? "🥈" : rank === 3 ? "🥉" : "";
+                    const badgeClass = getBadgeClass(user.currentBadge || user.badge);
+                    const score = currentTab === "monthly" ? user.monthlyScore : user.honestyScore;
+                    const initials = (user.name || "?").split(" ").map(n => n[0]).join("").toUpperCase();
+
+                    html += `
+                        <div class="leaderboard-row">
+                            <div class="rank ${rank <= 3 ? `top-${rank}` : ''}">
+                                ${medal || rank}
+                            </div>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    ${user.profilePic ? `<img src="${user.profilePic}" alt="${user.name}">` : initials}
+                                </div>
+                                <div class="user-name">${user.name || "Anonymous"}</div>
+                            </div>
+                            <div>
+                                <span class="badge ${badgeClass}">${user.currentBadge || user.badge || "Beginner"}</span>
+                            </div>
+                            <div class="score">${score || 0} pts</div>
+                            <div class="items-returned">${user.totalReturned || user.totalReturnedItems || 0}</div>
+                        </div>
+                    `;
+                });
+
+                html += `</div></div>`;
+                contentDiv.innerHTML = html;
+
+            } catch (error) {
+                console.error("Error loading leaderboard:", error);
+                contentDiv.innerHTML = `<div class="error">Error loading leaderboard. Please try again.</div>`;
+            }
+        }
+
+        function getBadgeClass(badge) {
+            if (!badge) return "beginner";
+            if (badge.includes("Platinum")) return "platinum";
+            if (badge.includes("Campus")) return "guardian";
+            if (badge.includes("Trusted")) return "trusted";
+            return "beginner";
+        }
+
+        async function loadStats() {
+            try {
+                const response = await fetch(`${API_URL}/honesty/stats/badges`);
+                const data = await response.json();
+
+                document.getElementById("totalUsers").textContent = data.totalUsers || "0";
+                document.getElementById("totalPoints").textContent = (data.totalHonestyScore || 0).toLocaleString();
+                document.getElementById("verifiedReports").textContent = (data.totalUsers || 0); // Approximation
+            } catch (error) {
+                console.error("Error loading stats:", error);
+            }
+        }
+
+        // Initial load
+        loadStats();
+        loadLeaderboard();
+    </script>
+</body>
+</html>

@@ -987,7 +987,61 @@ document.addEventListener("DOMContentLoaded", () => {
 
     nameInput.value = user.name;
     emailInput.value = user.email;
+
+    // ✅ Load honesty profile if on my-account page
+    loadHonestyProfile();
 });
+
+// ✅ LOAD HONESTY PROFILE
+async function loadHonestyProfile() {
+    try {
+        const user = JSON.parse(localStorage.getItem("user"));
+        if (!user) return;
+
+        const token = localStorage.getItem("token");
+        
+        // First, get the user ID from the profile endpoint
+        const profileResponse = await fetch(`${BASE_URL}/api/auth/profile`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        if (!profileResponse.ok) {
+            console.error("Error fetching profile");
+            return;
+        }
+
+        const profileData = await profileResponse.json();
+        const userId = profileData._id;
+
+        // Now fetch the honesty profile
+        const honestyResponse = await fetch(`${BASE_URL}/api/honesty/profile/${userId}`);
+        const honestyData = await honestyResponse.json();
+
+        if (honestyResponse.ok && honestyData.user) {
+            const honestyUser = honestyData.user;
+            const badgeProgress = honestyData.badgeProgress;
+
+            // Hide loading, show profile
+            document.getElementById("honestyLoadingContainer").style.display = "none";
+            document.getElementById("honestyProfileContainer").style.display = "block";
+
+            // Update UI
+            document.getElementById("userScore").textContent = honestyUser.honestyScore || 0;
+            document.getElementById("userBadge").textContent = honestyUser.currentBadge || "Beginner Helper";
+            document.getElementById("itemsReturned").textContent = honestyUser.totalReturnedItems || 0;
+
+            // Update progress bar
+            const progress = Math.min(badgeProgress.progressPercentage, 100);
+            document.getElementById("progressBar").style.width = progress + "%";
+            document.getElementById("progressText").textContent = Math.round(progress) + "%";
+        }
+    } catch (error) {
+        console.error("Error loading honesty profile:", error);
+        document.getElementById("honestyLoadingContainer").innerHTML = '<p style="text-align: center; color: #999;">Could not load honesty profile</p>';
+    }
+}
 
 
 async function loginUser() {

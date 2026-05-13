@@ -28,6 +28,7 @@ exports.reportFoundItem = async (req, res) => {
 
         // 🔐 Get user from token
         const reportedBy = req.user.name; // (later upgrade → req.user._id)
+        const reportedByUserId = req.user.id; // User ID for honesty score tracking
 
         const image = req.file ? req.file.filename : null;
 
@@ -38,7 +39,10 @@ exports.reportFoundItem = async (req, res) => {
             location,
             date,
             image,
-            reportedBy
+            reportedBy,
+            reportedByUserId,
+            verificationStatus: "Pending", // Start with pending status
+            rewardGranted: false // No reward until verified
         });
 
         // 🤖 Generate embedding
@@ -48,7 +52,7 @@ exports.reportFoundItem = async (req, res) => {
         await newItem.save();
 
         res.status(201).json({
-            message: "Found item reported successfully",
+            message: "Found item reported successfully. Awaiting admin verification.",
             item: newItem
         });
 

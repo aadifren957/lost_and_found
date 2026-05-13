@@ -34,7 +34,33 @@ const userSchema = new mongoose.Schema({
         type: String,
         enum: ["manual", "google"],
         default: "manual"
-    }
+    },
+    // ✅ HONESTY SCORE SYSTEM
+    honestyScore: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    currentBadge: {
+        type: String,
+        enum: ["Beginner Helper", "Trusted Contributor", "Campus Guardian", "Platinum Honest User"],
+        default: "Beginner Helper"
+    },
+    totalReturnedItems: {
+        type: Number,
+        default: 0,
+        min: 0
+    },
+    scoreHistory: [{
+        date: {
+            type: Date,
+            default: Date.now
+        },
+        action: String, // "report_verified", "report_rejected", etc.
+        pointsAwarded: Number,
+        foundItemId: mongoose.Schema.Types.ObjectId,
+        description: String
+    }]
 }, {
     timestamps: true
 });

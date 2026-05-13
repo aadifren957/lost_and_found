@@ -8,6 +8,10 @@ const foundItemSchema = new mongoose.Schema({
     date: Date,
     image: String,
     reportedBy: String,
+    reportedByUserId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
 
     // ✅ UPDATED STATUS FIELD
     status: {
@@ -15,6 +19,36 @@ const foundItemSchema = new mongoose.Schema({
         enum: ["unmatched", "matched", "returned"],
         default: "unmatched"
     },
+
+    // ✅ VERIFICATION SYSTEM
+    verificationStatus: {
+        type: String,
+        enum: ["Pending", "Verified", "Claimed", "Rejected"],
+        default: "Pending"
+    },
+    
+    physicallySubmitted: {
+        type: Boolean,
+        default: false
+    },
+
+    matchedLostItem: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LostItem"
+    },
+
+    rewardGranted: {
+        type: Boolean,
+        default: false
+    },
+
+    adminVerificationNotes: String,
+    verifiedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    verifiedAt: Date,
+    rejectionReason: String,
 
     embedding: {
         type: [Number],

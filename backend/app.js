@@ -5,6 +5,7 @@ const authRoutes = require("./routes/authRoutes");
 const lostRoutes = require("./routes/lostRoutes");
 const foundRoutes = require("./routes/foundRoutes"); // ✅ ADD THIS
 const matchRoutes = require("./routes/matchRoutes");
+const honestyRoutes = require("./routes/honestyRoutes"); // ✅ HONESTY SYSTEM
 
 const session = require("express-session");
 const passport = require("passport");
@@ -32,6 +33,7 @@ app.use(passport.session());
 app.use("/api/auth", authRoutes);
 app.use("/api/lost", lostRoutes);
 app.use("/api/found", foundRoutes); // ✅ ADD THIS
+app.use("/api/honesty", honestyRoutes); // ✅ HONESTY SYSTEM
 
 app.use("/uploads", express.static("uploads"));
 app.use("/api/matches", matchRoutes);
