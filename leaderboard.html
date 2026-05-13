@@ -4,41 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Honesty Leaderboard - Lost & Found</title>
+    <link rel="icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="config.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        header {
+        /* Leaderboard specific styles */
+        .leaderboard-header-section {
             text-align: center;
-            color: white;
-            margin-bottom: 40px;
-            animation: slideDown 0.6s ease-out;
+            margin-bottom: 3rem;
         }
 
-        header h1 {
+        .leaderboard-header-section h1 {
             font-size: 2.5em;
-            margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 0.5rem;
         }
 
-        header p {
+        .leaderboard-header-section p {
             font-size: 1.1em;
-            opacity: 0.9;
+            color: var(--text-secondary);
         }
 
         .tabs {
@@ -51,36 +34,42 @@
 
         .tab-btn {
             padding: 12px 24px;
-            background: white;
-            border: none;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
             border-radius: 25px;
             cursor: pointer;
             font-size: 1em;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            color: var(--text-secondary);
+            font-weight: 500;
         }
 
         .tab-btn.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
             color: white;
+            border-color: transparent;
             transform: scale(1.05);
         }
 
         .tab-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            border-color: var(--glass-border);
+            color: var(--text-primary);
         }
 
         .leaderboard-card {
-            background: white;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: var(--card-shadow);
             overflow: hidden;
             animation: fadeIn 0.6s ease-out;
         }
 
         .leaderboard-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
             color: white;
             padding: 20px;
             display: grid;
@@ -106,12 +95,21 @@
         }
 
         .leaderboard-row:hover {
-            background: #f5f5f5;
-            padding-left: 25px;
+            background: rgba(0, 210, 255, 0.05);
+            border-bottom: 1px solid var(--glass-border);
         }
 
-        .leaderboard-row:nth-child(odd) {
-            background: #fafafa;
+        .leaderboard-row {
+            gap: 20px;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            color: var(--text-primary);
+        }
+
+        .leaderboard-row:last-child {
+            border-bottom: none;
         }
 
         .rank {
@@ -145,13 +143,14 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
             display: flex;
             align-items: center;
             justify-content: center;
             color: white;
             font-weight: bold;
             overflow: hidden;
+            flex-shrink: 0;
         }
 
         .user-avatar img {
@@ -162,7 +161,7 @@
 
         .user-name {
             font-weight: 600;
-            color: #333;
+            color: var(--text-primary);
         }
 
         .badge {
@@ -176,35 +175,35 @@
         }
 
         .badge.beginner {
-            background: #e8f4f8;
+            background: rgba(0, 153, 204, 0.15);
             color: #0099cc;
         }
 
         .badge.trusted {
-            background: #fff3e0;
+            background: rgba(255, 152, 0, 0.15);
             color: #ff9800;
         }
 
         .badge.guardian {
-            background: #f3e5f5;
-            color: #9c27b0;
+            background: rgba(156, 39, 176, 0.15);
+            color: #d891ff;
         }
 
         .badge.platinum {
-            background: #e1f5fe;
-            color: #0277bd;
+            background: rgba(0, 210, 255, 0.15);
+            color: var(--accent-blue);
         }
 
         .score {
             font-weight: 600;
             font-size: 1.1em;
-            color: #667eea;
+            color: var(--accent-blue);
             text-align: right;
         }
 
         .items-returned {
             text-align: center;
-            color: #666;
+            color: var(--text-secondary);
         }
 
         .stats-container {
@@ -215,15 +214,18 @@
         }
 
         .stat-card {
-            background: white;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            -webkit-backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: var(--card-shadow);
             text-align: center;
         }
 
         .stat-card h3 {
-            color: #667eea;
+            color: var(--text-secondary);
             margin-bottom: 10px;
             font-size: 0.95em;
         }
@@ -231,32 +233,25 @@
         .stat-value {
             font-size: 2em;
             font-weight: bold;
-            color: #333;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .loading {
             text-align: center;
             padding: 40px;
-            color: white;
+            color: var(--text-secondary);
         }
 
         .error {
-            background: #ff6b6b;
-            color: white;
+            background: rgba(255, 107, 107, 0.15);
+            color: #ff6b6b;
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            border: 1px solid rgba(255, 107, 107, 0.3);
         }
 
         @keyframes fadeIn {
@@ -276,11 +271,11 @@
         .no-data {
             text-align: center;
             padding: 40px;
-            color: #999;
+            color: var(--text-secondary);
         }
 
         @media (max-width: 768px) {
-            header h1 {
+            .leaderboard-header-section h1 {
                 font-size: 1.8em;
             }
 
@@ -302,11 +297,71 @@
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🏆 Honesty Leaderboard</h1>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="section-container">
+            <div class="logo">
+                <a href="index.html" class="logo">
+                    <img src="./logo.png" alt="Logo">
+                    <span class="text-gradient">Smart Lost & Found</span>
+                </a>
+            </div>
+
+            <nav class="nav">
+                <a href="index.html">Home</a>
+                <a href="report-lost.html">Lost Items</a>
+                <a href="report-found.html">Found Items</a>
+                <a href="track-status.html">Track Status</a>
+                
+                <div class="dropdown" id="loginDropdown">
+                    <span class="dropbtn">Login <span class="chevron"></span></span>
+                    <div class="dropdown-content glass">
+                        <a href="user-login.html">
+                            <img src="icons/user-icon.svg" style="height: 18px; margin-right: 0.75rem;">
+                            User Login
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="admin-login.html">
+                            <img src="icons/lock.svg" style="height: 18px; margin-right: 0.75rem;">
+                            Admin Login
+                        </a>
+                    </div>
+                </div>
+
+                <div class="dropdown" id="userAuthBox" style="display:none;">
+                    <span class="dropbtn user-name" id="userWelcome">
+                        <img src="" class="user-profile-img" style="display:none;">
+                        <img src="icons/account_circle.svg" class="account-icon default-user-icon" style="filter: invert(1); height: 20px;">
+                        <span class="username-text"></span>
+                        <span class="chevron" style="margin-left: 0.2rem;"></span>
+                    </span>
+                    <div class="dropdown-content glass dropdown-right" id="userDropdownMenu">
+                        <a href="my-account.html">
+                            <img src="icons/account_circle.svg" alt="My Account" style="height: 18px; filter: invert(1);">
+                            <span>My Account</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a href="#" onclick="userLogout()">
+                            <img src="icons/logout.svg" alt="Logout" style="height: 18px; filter: invert(1);">
+                            <span>Logout</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="hamburger" id="hamburger">
+                <div class="bar"></div>
+                <div class="bar"></div>
+                <div class="bar"></div>
+            </div>
+        </div>
+    </header>
+
+    <main class="section-container" style="padding: 4rem 2rem;">
+        <div class="leaderboard-header-section">
+            <h1 class="text-gradient">🏆 Honesty Leaderboard</h1>
             <p>Celebrate our most trusted community members</p>
-        </header>
+        </div>
 
         <div class="stats-container" id="statsContainer">
             <div class="stat-card">
@@ -332,7 +387,53 @@
         </div>
 
         <div id="leaderboardContent"></div>
-    </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <img src="logo.png" alt="Smart Lost & Found Logo">
+                        <span class="text-gradient">Smart Lost & Found</span>
+                    </div>
+                    <p>Bridging the gap between lost and found using modern technology and community trust.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h5>Quick Links</h5>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="report-lost.html">Report Lost</a></li>
+                        <li><a href="report-found.html">Report Found</a></li>
+                        <li><a href="track-status.html">Track Status</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Legal</h5>
+                    <ul class="footer-links">
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="terms.html">Terms of Service</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-section">
+                    <h5>Connect With Us</h5>
+                    <div class="icon-section">
+                        <a href="mailto:rishufren@gmail.com" title="Email us"><img src="./icons/mail.svg" alt="Mail" /></a>
+                        <a href="tel:+919939648228" title="Call us"><img src="./icons/phone.svg" alt="Phone" /></a>
+                        <a href="https://www.instagram.com/" title="Follow us on Instagram"><img src="./icons/instagram-icon.webp" alt="Instagram"></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Smart Lost & Found. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
 
     <script>
         const API_URL = "http://localhost:5000/api";
@@ -466,5 +567,6 @@
         loadStats();
         loadLeaderboard();
     </script>
+    <script src="script.js"></script>
 </body>
 </html>
