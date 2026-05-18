@@ -356,6 +356,17 @@ ul {
     font-weight: 800;
 }
 
+/* HONESTY PROFILE CARDS */
+.honesty-card {
+    transition: var(--transition-smooth);
+}
+
+.honesty-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 210, 255, 0.15);
+    border-color: rgba(0, 210, 255, 0.4) !important;
+}
+
 /* ITEM GRID */
 .recent-section {
     padding: 4rem 0;
