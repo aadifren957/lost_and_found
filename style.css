@@ -362,9 +362,8 @@ ul {
 }
 
 .honesty-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 210, 255, 0.15);
-    border-color: rgba(0, 210, 255, 0.4) !important;
+    transform: scale(1.02);
+    border-color: var(--accent-blue) !important;
 }
 
 /* ITEM GRID */
